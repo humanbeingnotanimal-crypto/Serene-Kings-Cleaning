@@ -110,7 +110,7 @@ export default function App() {
           name="contact"
           method="POST"
           data-netlify="true"
-          netlify-honeypot="bot-field"
+          data-netlify-honeypot="bot-field"
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
