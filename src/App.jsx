@@ -40,7 +40,8 @@ export default function App() {
       }}
     >
       {/* HERO */}
-      <header style={{ textAlign: "center", padding: "40px 20px" }}>
+<header style={{ textAlign: "center", padding: "40px 20px" }}>
+  <img src="/logo.svg" alt="Serene Kings Cleaning" style={{ height: "70px", marginBottom: "10px" }} />
         <h1 style={{ fontSize: "36px", color: "#065f46" }}>
           Serene Kings Cleaning Services Ltd
         </h1>
