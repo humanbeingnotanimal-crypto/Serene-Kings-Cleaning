@@ -14,8 +14,11 @@ export default function App() {
     const form = e.target;
     const formData = new FormData(form);
 
+    // Ensure honeypot is present and empty
+    formData.set("bot-field", "");
+
     try {
-      const res = await fetch("/", {
+      const res = await fetch(window.location.pathname, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(formData).toString(),
@@ -25,7 +28,9 @@ export default function App() {
       setSubmitted(true);
       form.reset();
     } catch (err) {
-      setError("Sorry — something went wrong. Please call or WhatsApp us and we’ll get back to you quickly.");
+      setError(
+        "Sorry — something went wrong. Please call or WhatsApp us and we’ll get back to you quickly."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -40,14 +45,18 @@ export default function App() {
       }}
     >
       {/* HERO */}
-<header style={{ textAlign: "center", padding: "40px 20px" }}>
-  <img src="/logo.svg" alt="Serene Kings Cleaning" style={{ height: "70px", marginBottom: "10px" }} />
+      <header style={{ textAlign: "center", padding: "40px 20px" }}>
+        <img
+          src="/logo.svg"
+          alt="Serene Kings Cleaning"
+          style={{ height: "70px", marginBottom: "10px" }}
+        />
         <h1 style={{ fontSize: "36px", color: "#065f46" }}>
           Serene Kings Cleaning Services Ltd
         </h1>
         <p style={{ fontSize: "18px", color: "#065f46" }}>
-          Professional Cleaning Services for Homes & Offices in London & Surrounding
-          Areas
+          Professional Cleaning Services for Homes & Offices in London &
+          Surrounding Areas
         </p>
 
         <a
@@ -90,6 +99,7 @@ export default function App() {
             Thank you — your message has been sent successfully.
           </p>
         )}
+
         {error && (
           <p
             style={{
@@ -106,7 +116,6 @@ export default function App() {
           </p>
         )}
 
-
         <form
           name="contact"
           method="POST"
@@ -115,8 +124,8 @@ export default function App() {
           onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
-          <input type="text" name="bot-field" style={{ display: "none" }} />
 
+          {/* Netlify honeypot (ONLY ONE) */}
           <p style={{ display: "none" }}>
             <label>
               Don’t fill this out: <input name="bot-field" />
