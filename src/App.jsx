@@ -1,41 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 // MAIN APP
 export default function App() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError("");
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    // Ensure honeypot is present and empty
-    formData.set("bot-field", "");
-
-    try {
-      const res = await fetch(window.location.pathname, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
-      });
-
-      if (res.status >= 400) throw new Error("Submission failed");
-      setSubmitted(true);
-      form.reset();
-    } catch (err) {
-      setError(
-        "Sorry — something went wrong. Please call or WhatsApp us and we’ll get back to you quickly."
-      );
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <div
       style={{
@@ -84,44 +50,12 @@ export default function App() {
           padding: "0 20px",
         }}
       >
-        {submitted && (
-          <p
-            style={{
-              background: "#dcfce7",
-              color: "#065f46",
-              padding: "12px",
-              borderRadius: "8px",
-              textAlign: "center",
-              marginBottom: "20px",
-              fontWeight: "600",
-            }}
-          >
-            Thank you — your message has been sent successfully.
-          </p>
-        )}
-
-        {error && (
-          <p
-            style={{
-              background: "#fee2e2",
-              color: "#7f1d1d",
-              padding: "12px",
-              borderRadius: "8px",
-              textAlign: "center",
-              marginBottom: "20px",
-              fontWeight: "600",
-            }}
-          >
-            {error}
-          </p>
-        )}
-
         <form
           name="contact"
           method="POST"
+          action="/thanks"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
         >
           <input type="hidden" name="form-name" value="contact" />
 
@@ -181,7 +115,6 @@ export default function App() {
 
           <button
             type="submit"
-            disabled={submitting}
             style={{
               width: "100%",
               padding: "12px",
@@ -190,8 +123,7 @@ export default function App() {
               border: "none",
               borderRadius: "8px",
               fontWeight: "600",
-              cursor: submitting ? "not-allowed" : "pointer",
-              opacity: submitting ? 0.7 : 1,
+              cursor: "pointer",
             }}
           >
             Send Message
