@@ -1,40 +1,28 @@
 import React from "react";
 
-// MAIN APP
-function Stars({ value = 5 }) {
+// Google-style stars
+function Stars({ value = 5, size = 16 }) {
   const full = Math.max(0, Math.min(5, Math.round(value)));
   return (
     <span aria-label={`${full} out of 5 stars`} title={`${full} / 5`}>
       {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} style={{ color: i < full ? "#f59e0b" : "#d1d5db", fontSize: "16px" }}>
+        <span
+          key={i}
+          style={{
+            color: i < full ? "#f59e0b" : "#d1d5db",
+            fontSize: `${size}px`,
+            lineHeight: 1,
+          }}
+        >
           ★
         </span>
       ))}
     </span>
   );
 }
-function ReviewSlider({ softCard }) {
-  const reviews = [
-    {
-      name: "Local Client",
-      role: "Deep Clean",
-      rating: 5,
-      text: "Booked a deep clean and was genuinely impressed. The team arrived on time, worked efficiently and left the place looking and smelling fresh. Very professional and easy to communicate with.",
-    },
-    {
-      name: "Homeowner – London",
-      role: "Regular Cleaning",
-      rating: 5,
-      text: "Reliable and respectful service. Attention to detail was excellent and they took real care with the property. Will definitely be using Serene Kings Cleaning regularly.",
-    },
-    {
-      name: "Office Client",
-      role: "Commercial Cleaning",
-      rating: 5,
-      text: "We needed a dependable office cleaner and they delivered exactly that. Consistent, thorough and flexible with scheduling. The workspace feels much better maintained now.",
-    },
-  ];
 
+// Review slider (data passed in)
+function ReviewSlider({ softCard, reviews }) {
   const [i, setI] = React.useState(0);
 
   const prev = () => setI((v) => (v - 1 + reviews.length) % reviews.length);
@@ -44,14 +32,20 @@ function ReviewSlider({ softCard }) {
 
   return (
     <div style={{ ...softCard, padding: "18px" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "10px",
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
         <div>
-          <div style={{ fontWeight: 950, color: "#065f46" }}>{r.name}</div>
-          <div style={{ marginTop: "6px" }}>
-            <Stars value={r.rating} />{" "}
-            <span style={{ marginLeft: "8px", color: "#0f5132", fontWeight: 800, fontSize: "13px" }}>
-              {r.role}
-            </span>
+          <div style={{ fontWeight: 950, color: "#065f46", fontSize: "16px" }}>{r.name}</div>
+          <div style={{ marginTop: "6px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            <Stars value={r.rating} />
+            <span style={{ color: "#0f5132", fontWeight: 800, fontSize: "13px" }}>{r.role}</span>
           </div>
         </div>
 
@@ -63,10 +57,11 @@ function ReviewSlider({ softCard }) {
               border: "1px solid rgba(6,95,70,0.18)",
               background: "#fff",
               borderRadius: "12px",
-              padding: "10px 12px",
+              padding: "10px 14px",
               fontWeight: 900,
               cursor: "pointer",
               color: "#065f46",
+              minWidth: "48px",
             }}
             aria-label="Previous review"
           >
@@ -79,10 +74,11 @@ function ReviewSlider({ softCard }) {
               border: "1px solid rgba(6,95,70,0.18)",
               background: "#fff",
               borderRadius: "12px",
-              padding: "10px 12px",
+              padding: "10px 14px",
               fontWeight: 900,
               cursor: "pointer",
               color: "#065f46",
+              minWidth: "48px",
             }}
             aria-label="Next review"
           >
@@ -161,49 +157,39 @@ export default function App() {
   ];
 
   const services = [
-    {
-      title: "Domestic Cleaning",
-      desc: "Regular or one-off home cleaning tailored to your routine and priorities.",
-    },
-    {
-      title: "Deep Cleaning",
-      desc: "A top-to-bottom clean for kitchens, bathrooms, floors and hidden build-up.",
-    },
-    {
-      title: "End of Tenancy",
-      desc: "Move-in / move-out cleaning designed to meet landlord and agency standards.",
-    },
-    {
-      title: "Office & Commercial",
-      desc: "Clean, hygienic workspaces for teams and clients — reliable scheduling available.",
-    },
+    { title: "Domestic Cleaning", desc: "Regular or one-off home cleaning tailored to your routine and priorities." },
+    { title: "Deep Cleaning", desc: "A top-to-bottom clean for kitchens, bathrooms, floors and hidden build-up." },
+    { title: "End of Tenancy", desc: "Move-in / move-out cleaning designed to meet landlord and agency standards." },
+    { title: "Office & Commercial", desc: "Clean, hygienic workspaces — reliable scheduling available." },
   ];
 
+  // Single source of truth for reviews (used in slider)
   const reviews = [
-  {
-    name: "Local Client",
-    text: "Booked a deep clean and was genuinely impressed. The team arrived on time, worked efficiently and left the place looking and smelling fresh. Very professional and easy to communicate with.",
-  },
-  {
-    name: "Homeowner – London",
-    text: "Reliable and respectful service. Attention to detail was excellent and they took real care with the property. Will definitely be using Serene Kings Cleaning regularly.",
-  },
-  {
-    name: "Office Client",
-    text: "We needed a dependable office cleaner and they delivered exactly that. Consistent, thorough and flexible with scheduling. The workspace feels much better maintained now.",
-  },
-];
-
+    {
+      name: "Local Client",
+      role: "Deep Clean",
+      rating: 5,
+      text: "Booked a deep clean and was genuinely impressed. The team arrived on time, worked efficiently and left the place looking and smelling fresh. Very professional and easy to communicate with.",
+    },
+    {
+      name: "Homeowner – London",
+      role: "Regular Cleaning",
+      rating: 5,
+      text: "Reliable and respectful service. Attention to detail was excellent and they took real care with the property. Will definitely be using Serene Kings Cleaning regularly.",
+    },
+    {
+      name: "Office Client",
+      role: "Commercial Cleaning",
+      rating: 5,
+      text: "We needed a dependable office cleaner and they delivered exactly that. Consistent, thorough and flexible with scheduling. The workspace feels much better maintained now.",
+    },
+  ];
 
   return (
     <div style={container}>
       {/* TOP HEADER */}
       <header style={{ textAlign: "center", padding: "34px 20px 10px" }}>
-        <img
-          src="/logo.svg"
-          alt="Serene Kings Cleaning"
-          style={{ height: "96px", marginBottom: "10px" }}
-        />
+        <img src="/logo.svg" alt="Serene Kings Cleaning" style={{ height: "96px", marginBottom: "10px" }} />
         <h1 style={{ fontSize: "40px", color: "#065f46", margin: "0 0 8px", fontWeight: 900 }}>
           Serene Kings Cleaning Services Ltd
         </h1>
@@ -227,7 +213,6 @@ export default function App() {
             minHeight: "380px",
           }}
         >
-          {/* overlay */}
           <div
             style={{
               position: "absolute",
@@ -289,21 +274,13 @@ export default function App() {
       <section style={section}>
         <div style={maxWrap}>
           <div style={{ textAlign: "center", marginBottom: "18px" }}>
-            <h2 style={{ color: "#065f46", fontSize: "30px", margin: 0, fontWeight: 950 }}>
-              Our Services
-            </h2>
+            <h2 style={{ color: "#065f46", fontSize: "30px", margin: 0, fontWeight: 950 }}>Our Services</h2>
             <p style={{ margin: "10px auto 0", maxWidth: "820px", color: "#065f46", lineHeight: 1.6 }}>
               Choose a service that suits your space — we’ll tailor the clean to your needs and standards.
             </p>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-              gap: "16px",
-            }}
-          >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
             {services.map((s) => (
               <div key={s.title} style={{ ...softCard, padding: "18px" }}>
                 <div style={{ color: "#065f46", fontWeight: 950, fontSize: "18px" }}>{s.title}</div>
@@ -314,15 +291,7 @@ export default function App() {
             ))}
           </div>
 
-          <div
-            style={{
-              marginTop: "18px",
-              display: "flex",
-              gap: "10px",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
+          <div style={{ marginTop: "18px", display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}>
             {chips.map((item) => (
               <span
                 key={item}
@@ -352,35 +321,18 @@ export default function App() {
             </p>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "18px",
-            }}
-          >
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "18px" }}>
             {[
               { src: "/cleaning-1.jpg", alt: "Professional cleaning service" },
               { src: "/cleaning-2.jpg", alt: "Family home cleaning service" },
               { src: "/cleaning-3.jpg", alt: "Office & commercial cleaning service" },
             ].map((img) => (
-              <div
-                key={img.src}
-                style={{
-                  ...softCard,
-                  overflow: "hidden",
-                }}
-              >
+              <div key={img.src} style={{ ...softCard, overflow: "hidden" }}>
                 <div style={{ height: "240px", background: "#e8f5ef" }}>
                   <img
                     src={img.src}
                     alt={img.alt}
-                    style={{
-                      width: "100%",
-                      height: "240px",
-                      objectFit: "cover",
-                      display: "block",
-                    }}
+                    style={{ width: "100%", height: "240px", objectFit: "cover", display: "block" }}
                   />
                 </div>
                 <div style={{ padding: "14px 16px 16px" }}>
@@ -404,14 +356,14 @@ export default function App() {
             </h2>
 
             <p style={{ fontSize: "16px", lineHeight: 1.8, margin: "0 0 12px" }}>
-              Serene Kings Cleaning Services Ltd provides reliable domestic and commercial cleaning across
-              London and surrounding areas. From regular home cleaning to deep cleans, end of tenancy,
-              and office cleaning — we tailor each service to your needs and standards.
+              Serene Kings Cleaning Services Ltd provides reliable domestic and commercial cleaning across London and
+              surrounding areas. From regular home cleaning to deep cleans, end of tenancy, and office cleaning — we
+              tailor each service to your needs and standards.
             </p>
 
             <p style={{ fontSize: "16px", lineHeight: 1.8, margin: "0 0 14px" }}>
-              We focus on quality, consistency, and clear communication — arriving on time and leaving your
-              space spotless, fresh, and welcoming.
+              We focus on quality, consistency, and clear communication — arriving on time and leaving your space
+              spotless, fresh, and welcoming.
             </p>
 
             <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
@@ -435,74 +387,60 @@ export default function App() {
         </div>
       </section>
 
-      {/* REVIEWS */}
-{/* REVIEWS (Google-style stars + slider + Trustpilot-style header) */}
-<section style={{ padding: "0 0 44px" }}>
-  <div style={maxWrap}>
-    <div
-      style={{
-        ...softCard,
-        padding: "18px",
-        marginBottom: "16px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        gap: "10px",
-      }}
-    >
-      <div>
-        <div style={{ fontWeight: 950, color: "#065f46", fontSize: "18px" }}>
-          Excellent
-        </div>
-        <div style={{ marginTop: "6px" }}>
-          <Stars value={5} />{" "}
-          <span style={{ marginLeft: "8px", fontWeight: 900, color: "#065f46" }}>
-            5.0
-          </span>
-          <span style={{ marginLeft: "8px", color: "#0f5132" }}>
-            (placeholder reviews)
-          </span>
-        </div>
-      </div>
+      {/* REVIEWS (Google-style stars + slider + Trustpilot-style header) */}
+      <section style={{ padding: "0 0 44px" }}>
+        <div style={maxWrap}>
+          <div
+            style={{
+              ...softCard,
+              padding: "18px",
+              marginBottom: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "10px",
+            }}
+          >
+            <div>
+              <div style={{ fontWeight: 950, color: "#065f46", fontSize: "18px" }}>Excellent</div>
+              <div style={{ marginTop: "6px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                <Stars value={5} />
+                <span style={{ fontWeight: 900, color: "#065f46" }}>5.0</span>
+                <span style={{ color: "#0f5132" }}>(placeholder reviews)</span>
+              </div>
+            </div>
 
-      <a
-        href="#contact"
-        style={{
-          padding: "12px 16px",
-          borderRadius: "12px",
-          background: "#059669",
-          color: "#fff",
-          textDecoration: "none",
-          fontWeight: 900,
-        }}
-      >
-        Get a Quote
-      </a>
-    </div>
+            <a
+              href="#contact"
+              style={{
+                padding: "12px 16px",
+                borderRadius: "12px",
+                background: "#059669",
+                color: "#fff",
+                textDecoration: "none",
+                fontWeight: 900,
+              }}
+            >
+              Get a Quote
+            </a>
+          </div>
 
-    <ReviewSlider softCard={softCard} />
-  </div>
-</section>
+          <ReviewSlider softCard={softCard} reviews={reviews} />
+        </div>
+      </section>
 
       {/* CONTACT FORM */}
-      <section style={{ padding: "10px 0 60px" }}>
+      <section id="contact" style={{ padding: "10px 0 60px" }}>
         <div style={{ ...maxWrap, maxWidth: "640px" }}>
           <div style={{ ...softCard, padding: "18px" }}>
             <h2 style={{ margin: "6px 0 14px", color: "#065f46", textAlign: "center", fontWeight: 950 }}>
               Get a Fast Quote
             </h2>
 
-            <form
-              name="contact"
-              method="POST"
-              action="/thanks.html"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
-            >
+            <form name="contact" method="POST" action="/thanks.html" data-netlify="true" data-netlify-honeypot="bot-field">
               <input type="hidden" name="form-name" value="contact" />
 
-              {/* Netlify honeypot */}
               <p style={{ display: "none" }}>
                 <label>
                   Don’t fill this out: <input name="bot-field" />
@@ -615,11 +553,7 @@ export default function App() {
           href="https://www.google.com/maps?q=71-75+Shelton+Street,+Covent+Garden,+London,+WC2H+9JQ"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            color: "#059669",
-            fontWeight: 900,
-            textDecoration: "underline",
-          }}
+          style={{ color: "#059669", fontWeight: 900, textDecoration: "underline" }}
         >
           View on Google Maps
         </a>
