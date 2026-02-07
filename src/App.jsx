@@ -163,7 +163,7 @@ export default function App() {
     { title: "Office & Commercial", desc: "Clean, hygienic workspaces — reliable scheduling available." },
   ];
 
-  // Single source of truth for reviews (used in slider)
+  // Placeholder reviews (use until you have permission for real names)
   const reviews = [
     {
       name: "Local Client",
@@ -193,8 +193,9 @@ export default function App() {
         <h1 style={{ fontSize: "40px", color: "#065f46", margin: "0 0 8px", fontWeight: 900 }}>
           Serene Kings Cleaning Services Ltd
         </h1>
+        {/* SEO line: London + surrounding areas + services */}
         <p style={{ fontSize: "18px", color: "#065f46", margin: "0 auto", maxWidth: "860px", lineHeight: 1.55 }}>
-          Professional Cleaning Services for Homes & Offices in London & Surrounding Areas
+          Domestic, deep clean, end of tenancy and office cleaning across London & surrounding areas.
         </p>
       </header>
 
@@ -387,7 +388,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* REVIEWS (Google-style stars + slider + Trustpilot-style header) */}
+      {/* REVIEWS */}
       <section style={{ padding: "0 0 44px" }}>
         <div style={maxWrap}>
           <div
